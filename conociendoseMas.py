@@ -11,6 +11,9 @@ class Cuestionario:
             "3. ¿Cuál es tu lugar favorito para relajarte?",
             "4. ¿Tienes alguna habilidad o pasatiempo que te apasione?",
             "5. ¿Qué significa el éxito para ti?",
+            "6. ¿Quién es la persona más importante en tu vida?",
+            "7. ¿Color favorito?",
+            "8. ¿Comida favorita?"
         ]
 
         self.respuestas = []
