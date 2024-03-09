@@ -1,27 +1,49 @@
-import pygame
-import time
+import tkinter as tk
 
-def reproducir_musica():
-    pygame.mixer.init()
-    pygame.mixer.music.load("music.mp3")
-    pygame.mixer.music.play(-1)  # -1 para reproducir en bucle
+class Cuestionario:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("Cuestionario para Conocerse Mejor")
 
-def mostrar_panel_informativo():
-    print("¡Bienvenido al Gestor de Emociones!")
-    print("Escucha la música tranquila de fondo y cuéntame cómo te sientes.")
+        self.preguntas = [
+            "1. ¿Cuál es tu película favorita?",
+            "2. ¿Qué tipo de música te gusta?",
+            "3. ¿Cuál es tu lugar favorito para relajarte?",
+            "4. ¿Tienes alguna habilidad o pasatiempo que te apasione?",
+            "5. ¿Qué significa el éxito para ti?",
+        ]
 
-def obtener_estado_emocional():
-    estado_emocional = input("¿Cómo te sientes hoy? Describe tus emociones: ")
-    return estado_emocional
+        self.respuestas = []
 
-def main():
-    mostrar_panel_informativo()
-    reproducir_musica()
-    
-    while True:
-        estado_emocional = obtener_estado_emocional()
-        print("Gracias por compartir tus emociones.")
-        print("------------------------------")
+        self.label_pregunta = tk.Label(root, text=self.preguntas[0], font=("Arial", 12))
+        self.label_pregunta.pack(pady=10)
+
+        self.entry_respuesta = tk.Entry(root, width=50)
+        self.entry_respuesta.pack(pady=10)
+
+        self.boton_siguiente = tk.Button(root, text="Siguiente Pregunta", command=self.siguiente_pregunta)
+        self.boton_siguiente.pack(pady=10)
+
+    def siguiente_pregunta(self):
+        respuesta_actual = self.entry_respuesta.get()
+        self.respuestas.append(respuesta_actual)
+        self.entry_respuesta.delete(0, tk.END)  # Limpiar la entrada
+
+        if len(self.respuestas) < len(self.preguntas):
+            # Mostrar la siguiente pregunta
+            self.label_pregunta.config(text=self.preguntas[len(self.respuestas)])
+        else:
+            # Se han respondido todas las preguntas, mostrar las respuestas
+            self.mostrar_respuestas()
+
+    def mostrar_respuestas(self):
+        self.label_pregunta.config(text="¡Gracias por responder!")
+
+        for i, pregunta in enumerate(self.preguntas):
+            respuesta = self.respuestas[i]
+            tk.Label(self.root, text=f"{pregunta}\nRespuesta: {respuesta}", font=("Arial", 10)).pack(pady=5)
 
 if __name__ == "__main__":
-    main()
+    root = tk.Tk()
+    cuestionario = Cuestionario(root)
+    root.mainloop()
